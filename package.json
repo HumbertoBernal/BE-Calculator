@@ -18,10 +18,16 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.14",
+    "@heroicons/react": "v1",
+    "alphavantage": "^2.4.1",
+    "chart.js": "^4.2.1",
     "clsx": "^1.2.1",
     "next": "^13.3.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "tailwind-merge": "^1.12.0"
   },
