@@ -9,7 +9,7 @@ import { LinePlot } from "@/components/charts/LinePlot";
 async function getData(symbol: string) {
 
   try {
-    const data = await alphavantage.data.intraday(symbol);
+    const data: IntradayResponse = await alphavantage.data.intraday(symbol);
 
     const labels: string[] = [];
     const close: number[] = [];
@@ -40,6 +40,7 @@ async function getData(symbol: string) {
     }
 
     return [[data, labels.reverse(), close.reverse()], null]
+
   } catch (err: any) {
     return [null, err]
   }
@@ -60,6 +61,7 @@ export default function StockCalculator() {
 
   const [broughtFor, setBroughtFor] = useState(0);
   const [stocksBuyed, setStocksBuyed] = useState(0);
+  const [error, setError] = useState("");
 
 
   useEffect(() => {
@@ -79,9 +81,12 @@ export default function StockCalculator() {
     if (stock) {
       const [result, err] = await getData(stock['1. symbol'])
       if (err) {
-      } else {
+        const e = err as Error;
+        setError(e.message);
+      } else if (result) {
         setLabels(result ? result[1] : []);
         setData(result ? result[2] : []);
+        setError("")
       }
     }
   }, [stock, setLabels, setData])
@@ -118,6 +123,8 @@ export default function StockCalculator() {
             setQuery={setQuery}
             placeholder="Find a stock"
           />
+
+          {error && <p className='text-red-500'>{error}</p>}
 
           <div>
             {data && labels && <LinePlot data={data} labels={labels} />}
